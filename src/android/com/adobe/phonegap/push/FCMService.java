@@ -322,7 +322,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     // Send a notification if there is a message or title, otherwise just send data
     String message = extras.getString(MESSAGE);
     String title = extras.getString(TITLE);
-    String contentAvailable = extras.getString(CONTENT_AVAILABLE);
+    String contentAvailable = "1";
     String forceStart = extras.getString(FORCE_START);
     int badgeCount = extractBadgeCount(extras);
     if (badgeCount >= 0) {
@@ -338,17 +338,6 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     Log.d(LOG_TAG, "title =[" + title + "]");
     Log.d(LOG_TAG, "contentAvailable =[" + contentAvailable + "]");
     Log.d(LOG_TAG, "forceStart =[" + forceStart + "]");
-
-    if ((message != null && message.length() != 0) || (title != null && title.length() != 0)) {
-
-      Log.d(LOG_TAG, "create notification");
-
-      if (title == null || title.isEmpty()) {
-        extras.putString(TITLE, getAppName(this));
-      }
-
-      createNotification(context, extras);
-    }
 
     if (!PushPlugin.isActive() && "1".equals(forceStart)) {
       Log.d(LOG_TAG, "app is not running but we should start it and put in background");
